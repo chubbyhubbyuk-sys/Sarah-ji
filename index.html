@@ -70,6 +70,31 @@ body{min-height:100vh;display:flex;justify-content:center;padding:22px 12px 34px
 .birthday-flower.one{left:17px;top:19px;transform:rotate(-18deg)}
 .birthday-flower.two{right:18px;bottom:21px;transform:rotate(14deg)}
 @media(max-width:540px){.birthday-page{padding:18px 15px 48px}.birthday-date{margin:7px 0 10px}.birthday-photo{height:clamp(135px,25vh,175px);margin-bottom:10px}.birthday-message{padding:10px 12px}.birthday-bottom{font-size:18px}}
+
+/* New keepsake pages — matching the existing blush-pink scrapbook */
+.distance-page,.future-page{padding:clamp(18px,4vw,34px) clamp(16px,4vw,34px) 54px}
+.distance-page:before,.future-page:before{border-color:#efc9d7}
+.distance-kicker,.future-kicker{margin:2px 0 5px;font:700 9px var(--ui);letter-spacing:3px;text-transform:uppercase;color:#b88798;text-align:center}
+.distance-heading,.future-heading{margin:0 0 8px;color:var(--rose-deep);font:700 clamp(29px,5.8vw,43px)/1.08 var(--hand);text-align:center}
+.distance-sub,.future-sub{max-width:480px;margin:0 auto 12px;color:#987184;font:600 12px/1.5 var(--ui);text-align:center}
+.distance-map{position:relative;width:100%;max-width:520px;margin:10px auto 12px;padding:8px;border:1px solid #e9c4d2;border-radius:20px;background:linear-gradient(145deg,#fff,#fff2f7);box-shadow:0 9px 22px rgba(151,75,107,.12);overflow:hidden}
+.distance-map svg{display:block;width:100%;height:auto;min-height:150px}
+.distance-stats{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:8px auto 12px}
+.distance-pill{padding:7px 12px;border:1px solid #e9c4d2;border-radius:999px;background:#fff8fa;color:#a76d83;font:700 11px var(--ui)}
+.distance-message{max-width:500px;margin:0 auto;padding:13px 16px;border:1px solid #f0d9e1;border-radius:16px;background:rgba(255,255,255,.8);color:#765264;font:500 clamp(12px,1.7vw,14px)/1.6 var(--serif);text-align:center}
+.distance-message strong{display:block;margin-bottom:5px;color:var(--rose-deep);font:700 22px var(--hand)}
+.distance-signoff{margin:10px 0 0;color:#b16f89;font:500 20px var(--hand);text-align:center}
+.future-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-width:520px;margin:10px auto}
+.future-card{padding:10px 9px;border:1px solid #f0d5df;border-radius:13px;background:linear-gradient(145deg,#fff,#fff5f8);text-align:center;box-shadow:0 4px 12px rgba(150,70,105,.06)}
+.future-card .future-icon{display:block;margin-bottom:4px;font-size:21px}
+.future-card strong{display:block;margin-bottom:3px;color:var(--rose-deep);font:700 13px var(--hand)}
+.future-card span:last-child{display:block;color:#987184;font:600 10px/1.4 var(--ui)}
+.future-polaroid{width:142px;margin:12px auto 10px;padding:7px 7px 8px;background:#fff;border-radius:3px;box-shadow:0 8px 18px rgba(130,60,90,.2);transform:rotate(-2deg);text-align:center}
+.future-photo-placeholder{height:92px;display:flex;align-items:center;justify-content:center;border:1px dashed #e8bfd0;border-radius:2px;background:linear-gradient(135deg,#fff1f6,#f7e5ef);color:#b17c8e;font:600 11px/1.5 var(--ui)}
+.future-polaroid small{display:block;padding-top:5px;color:var(--soft);font:500 14px var(--hand)}
+.future-ending{max-width:480px;margin:8px auto 0;color:#b16f89;font:500 19px/1.35 var(--hand);text-align:center}
+@media(max-width:540px){.distance-page,.future-page{padding:17px 14px 48px}.distance-map svg{min-height:125px}.future-grid{gap:6px}.future-card{padding:8px 6px}.future-polaroid{width:128px}.future-photo-placeholder{height:82px}}
+
 .progress{width:min(260px,70%);height:4px;margin:20px auto 12px;border-radius:4px;background:rgba(194,88,127,.15);overflow:hidden}.progress span{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#e08aab,var(--rose));transition:transform .5s ease}
 .counter{min-width:110px;font:700 12px var(--ui);color:var(--soft)}.hint{margin:12px 0 0;font:600 11px var(--ui);color:var(--soft)}.footer{margin:8px 0 0;font:italic 500 13px var(--serif);color:#ad8795}
 @media(max-width:540px){body{padding:14px 8px 26px}.btn{padding:9px 12px}.polaroid{width:132px}.polaroid .pic{height:90px}.sticker{right:14px;bottom:22px;font-size:26px}.doodle{right:18px}.music-card{right:8px;bottom:8px}}
@@ -105,18 +130,27 @@ body{min-height:100vh;display:flex;justify-content:center;padding:22px 12px 34px
 </main>
 <script>
 "use strict";
+// Optional city coordinates for the distance page. Replace these placeholders
+// with city names and latitude/longitude to display the approximate distance in km.
+const DISTANCE_LOCATIONS = {
+  you: { name: "Gorakhpur", latitude: 26.7606, longitude: 83.3732 },
+  sarah: { name: "Nanded", latitude: 19.1383, longitude: 77.3210 }
+};
+
 const pages=[
-{label:"our first little page",title:"A Little Universe for Sarah",doodle:"🎀",sticker:"🧸",photo:true,text:"Sarah, welcome to this tiny corner of the world. This little book is a collection of sweet thoughts, small memories, and wishes made just for you. I hope every page brings a little smile.",note:"start here, this little book is yours ✧",caption:"the beginning of our little scrapbook ♡"},
-{label:"a little introduction",title:"The One and Only Sarah",doodle:"🌷",sticker:"🎀",photo:true,text:"There is only one you, and that is what makes you special. Your little habits, your way of talking, your laughter, and all the things that make you who you are deserve to be celebrated.",note:"no edits needed — just be you",caption:"one person, a thousand lovely details"},
-{label:"little everyday moments",title:"Small Things Matter",doodle:"☁️",sticker:"🐻",photo:true,text:"Sometimes the best memories are not grand plans. They are random conversations, silly jokes, unexpected smiles, and ordinary moments that somehow become favourites.",note:"the little things become the big memories",caption:"ordinary days, special memories"},
-{label:"details worth keeping",title:"Things That Make You You",doodle:"✿",sticker:"🌸",photo:true,text:"Your expressions, your humour, your kindness, and the tiny details you might not even notice — they all make you wonderfully you. Never feel you need to be anyone else.",note:"your own kind of lovely ♡",caption:"a page for all the little details"},
-{label:"memory corner",title:"A Moment to Remember",doodle:"📸",sticker:"🦋",photo:true,text:"Every photograph of you is the reason I am keep going on and here this picture of us, In Sha Allah we will recreate this picture together in real in our dream college and then we will remember our old days.",note:"tap a photo frame to add a picture",caption:"a memory tucked safely in a page"},
-{label:"a little appreciation",title:"Thank You, Sarah",doodle:"💌",sticker:"💗",photo:true,text:"Thank you for being yourself, for the smiles you bring, and for all the small moments that can brighten an ordinary day. You deserve kindness, happiness, and people who appreciate you.",note:"this page is a little thank-you",caption:"you are appreciated more than you know"},
+{label:"our first little page",title:"A Little Universe for Sarah",doodle:"🎀",sticker:"🧸",photo:true,photoKey:"photo0",text:"Sarah, welcome to this tiny corner of the world. This little book is a collection of sweet thoughts, small memories, and wishes made just for you. I hope every page brings a little smile.",note:"start here, this little book is yours ✧",caption:"the beginning of our little scrapbook ♡"},
+{label:"a little introduction",title:"The One and Only Sarah",doodle:"🌷",sticker:"🎀",photo:true,photoKey:"photo1",text:"There is only one you, and that is what makes you special. Your little habits, your way of talking, your laughter, and all the things that make you who you are deserve to be celebrated.",note:"no edits needed — just be you",caption:"one person, a thousand lovely details"},
+{label:"little everyday moments",title:"Small Things Matter",doodle:"☁️",sticker:"🐻",photo:true,photoKey:"photo2",text:"Sometimes the best memories are not grand plans. They are random conversations, silly jokes, unexpected smiles, and ordinary moments that somehow become favourites.",note:"the little things become the big memories",caption:"ordinary days, special memories"},
+{label:"details worth keeping",title:"Things That Make You You",doodle:"✿",sticker:"🌸",photo:true,photoKey:"photo3",text:"Your expressions, your humour, your kindness, and the tiny details you might not even notice — they all make you wonderfully you. Never feel you need to be anyone else.",note:"your own kind of lovely ♡",caption:"a page for all the little details"},
+{label:"memory corner",title:"A Moment to Remember",doodle:"📸",sticker:"🦋",photo:true,photoKey:"photo4",text:"Every photograph of you is the reason I am keep going on and here this picture of us, In Sha Allah we will recreate this picture together in real in our dream college and then we will remember our old days.",note:"tap a photo frame to add a picture",caption:"a memory tucked safely in a page"},
+{label:"a little appreciation",title:"Thank You, Sarah",doodle:"💌",sticker:"💗",photo:true,photoKey:"photo5",text:"Thank you for being yourself, for the smiles you bring, and for all the small moments that can brighten an ordinary day. You deserve kindness, happiness, and people who appreciate you.",note:"this page is a little thank-you",caption:"you are appreciated more than you know"},
 {label:"a wish for you",title:"For All Your Tomorrows",doodle:"☀️",sticker:"🌼",photo:false,text:"May your days be gentle, your dreams keep growing, and your hard work take you somewhere beautiful. May you always find reasons to be proud of yourself and people who cheer you on.",note:"wishing you a thousand happy tomorrows",caption:"a little wish, from the heart"},
-{label:"more memories ahead",title:"The Story Isn't Finished",doodle:"✨",sticker:"🧸",photo:true,text:"There are still new memories to make, new stories to tell, more laughter to share, and so many ordinary days waiting to become special. This little book is only a beginning.",note:"the next pages are still unwritten",caption:"more moments waiting for their turn"},
+{label:"more memories ahead",title:"The Story Isn't Finished",doodle:"✨",sticker:"🧸",photo:true,photoKey:"photo6",text:"There are still new memories to make, new stories to tell, more laughter to share, and so many ordinary days waiting to become special. This little book is only a beginning.",note:"the next pages are still unwritten",caption:"more moments waiting for their turn"},
 {label:"one last reminder",title:"Never Forget This",doodle:"♡",sticker:"🎀",photo:false,text:"You matter. Your happiness matters. Your dreams matter. Even on days when things feel difficult, remember that you are worthy of patience, respect, and all the good things you are working towards.",note:"keep this reminder close ♡",caption:"a little note for any day"},
-{label:"the last page, for now",title:"With Love, Zaid",doodle:"💗",sticker:"💐",photo:true,text:"And here we are at the last page. Ten pages cannot hold every thought or every memory, but I hope this tiny scrapbook makes you smile. The best moments are still ahead, and the next chapters are waiting to be written.",note:"the end of this book, not the memories ♡",caption:"made with love, especially for Sarah"},
- {label:"a day made for celebrating you",title:"Happy Birthday, Sarah!",doodle:"🦋",sticker:"🌸",photo:true,birthday:true,text:"Happy birthday to you, Sarah. May this new chapter bring gentle days, beautiful surprises, brave dreams, and countless little reasons to smile.",note:"A little page, just to celebrate you.",caption:"5th November 2010"}
+ {label:"a day made for celebrating you",title:"Happy Birthday, Sarah!",doodle:"🦋",sticker:"🌸",photo:true,photoKey:"photo8",birthday:true,text:"Happy birthday to you, Sarah. May this new chapter bring gentle days, beautiful surprises, brave dreams, and countless little reasons to smile.",note:"A little page, just to celebrate you.",caption:"5th November 2010"},
+{label:"across the miles",title:"Miles Between Us ♡",doodle:"🗺️",sticker:"💗",map:true,text:"No matter how many kilometres lie between us, distance has never changed what you mean to me. We may be in two different places, but we're still sharing the same little world. One day, I hope this map won't show the distance between us anymore. It'll remind us of how far we've come and the day we finally meet.",note:"Until then, it's you and me. ♡",caption:"two places, one little universe"},
+{label:"a little dream of tomorrow",title:"Someday, With You ♡",doodle:"✨",sticker:"🌷",future:true,text:"Some memories are still waiting for us. And I can't wait to make them with you.",note:"our favourite chapters are still ahead ♡",caption:"a little wishlist for someday"},
+{label:"the last page, for now",title:"With Love, Zaid",doodle:"💗",sticker:"💐",photo:true,photoKey:"photo7",text:"And here we are at the last page. 13 pages cannot hold every thought or every memory, but I hope this tiny scrapbook makes you smile. The best moments are still ahead, and the next chapters are waiting to be written.",note:"the end of this book, not the memories ♡",caption:"made with love, especially for Sarah"}
 ];
 const $=id=>document.getElementById(id),rand=(a,b)=>a+Math.random()*(b-a),statusEl=$("status");
 const say=msg=>statusEl.textContent=msg;
@@ -124,11 +158,28 @@ function openDB(){return new Promise((resolve,reject)=>{if(!window.indexedDB)ret
 async function idb(store,mode,fn){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(store,mode),req=fn(tx.objectStore(store));tx.oncomplete=()=>{db.close();resolve(req?req.result:undefined)};tx.onerror=tx.onabort=()=>{db.close();reject(tx.error)}})}
 async function shrink(file,max=900){try{const bmp=await createImageBitmap(file),r=Math.min(1,max/Math.max(bmp.width,bmp.height)),c=document.createElement("canvas");c.width=Math.round(bmp.width*r);c.height=Math.round(bmp.height*r);c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);bmp.close?.();return await new Promise(res=>c.toBlob(b=>res(b||file),"image/jpeg",.86))}catch{return file}}
 const book=$("book"),sheets=[],photoSlots=[];let current=0;
+$("bookArea").setAttribute("aria-label","Sarah's diary, a cover and "+pages.length+" pages");
 function coverFace(){const f=document.createElement("div");f.className="face cover";f.innerHTML=`<div class="cover-top">✿ ✧ ♡ ✧ ✿</div><span class="cover-sticker l">🧸</span><span class="cover-sticker r">🦋</span><div><div class="cover-small">a little diary for</div><h2 class="cover-title">My Sarah</h2><div class="cover-small">${pages.length} pages · one little universe</div><div class="cover-flower">🌸 ♡ 🌷</div></div><div class="cover-bottom">made slowly, with love · Zaid</div>`;return f}
 function backFace(){const f=document.createElement("div");f.className="face back";f.textContent="♡";return f}
 function pageFace(p,n){
  const f=document.createElement("div");f.className="face";
- if(p.birthday){
+ if(p.map){
+  f.innerHTML=`<span class="tape"></span><span class="doodle">${p.doodle}</span><span class="sticker">${p.sticker}</span><div class="inner distance-page"><p class="distance-kicker">a little closer, even from far away</p><h2 class="distance-heading">Miles Between Us ♡</h2><p class="distance-sub">Two different places, connected by one little line.</p><div class="distance-map"><svg viewBox="0 0 520 220" role="img" aria-label="Illustrated map connecting two places"><defs><linearGradient id="mapWash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f9e5ed"/><stop offset="1" stop-color="#f1e4f0"/></linearGradient><filter id="pinGlow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="520" height="220" rx="15" fill="url(#mapWash)"/><path d="M-10 60 C65 15 100 110 170 72 S270 30 330 78 S430 140 535 65 M-15 175 C65 125 120 190 195 145 S325 120 385 160 S465 195 540 145" fill="none" stroke="#fff9fb" stroke-width="19" opacity=".9"/><path d="M35 20 C80 60 55 100 105 130 M210 0 C180 55 240 80 210 125 M390 5 C350 60 405 90 375 125 M480 95 C440 125 475 155 450 210" fill="none" stroke="#e8c7d5" stroke-width="2" opacity=".8"/><path d="M95 145 C170 35 345 30 425 105" fill="none" stroke="#c2587f" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="3 10"/><circle cx="95" cy="145" r="17" fill="#f3c4d5" opacity=".65"/><circle cx="425" cy="105" r="17" fill="#f3c4d5" opacity=".65"/><g filter="url(#pinGlow)"><path d="M95 119 C81 119 72 130 72 143 C72 160 95 179 95 179 S118 160 118 143 C118 130 109 119 95 119Z" fill="#c2587f"/><circle cx="95" cy="142" r="7" fill="#fff7fa"/><path d="M425 79 C411 79 402 90 402 103 C402 120 425 139 425 139 S448 120 448 103 C448 90 439 79 425 79Z" fill="#a24468"/><circle cx="425" cy="102" r="7" fill="#fff7fa"/></g><text x="95" y="199" text-anchor="middle" fill="#8e526b" font-size="13" font-family="Nunito,Arial,sans-serif" font-weight="700">Gorakhpur</text><text x="425" y="160" text-anchor="middle" fill="#8e526b" font-size="13" font-family="Nunito,Arial,sans-serif" font-weight="700">Nanded</text><text x="260" y="92" text-anchor="middle" fill="#a96b83" font-size="12" font-family="Nunito,Arial,sans-serif">♡ connected ♡</text></svg></div><div class="distance-stats"><span class="distance-pill" id="distanceFrom">Your city</span><span class="distance-pill" id="distanceValue">Add city coordinates for km</span><span class="distance-pill" id="distanceTo">Sarah's city</span></div><p class="distance-sub">Approximate straight-line distance · city-level locations only</p><div class="distance-message"><strong>And yet, we're still together.</strong>${p.text}</div><p class="distance-signoff">${p.note}</p><span class="pagenum">♡ ${n} / ${pages.length} ♡</span></div>`;
+  const you=DISTANCE_LOCATIONS.you, sarah=DISTANCE_LOCATIONS.sarah;
+  f.querySelector("#distanceFrom").textContent=you.name;
+  f.querySelector("#distanceTo").textContent=sarah.name;
+  const valid=[you.latitude,you.longitude,sarah.latitude,sarah.longitude].every(Number.isFinite);
+  if(valid){
+   const rad=v=>v*Math.PI/180, dLat=rad(sarah.latitude-you.latitude), dLon=rad(sarah.longitude-you.longitude);
+   const h=Math.sin(dLat/2)**2+Math.cos(rad(you.latitude))*Math.cos(rad(sarah.latitude))*Math.sin(dLon/2)**2;
+   const km=6371*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));
+   f.querySelector("#distanceValue").textContent=km.toLocaleString(undefined,{maximumFractionDigits:0})+" km apart";
+  }else{
+   f.querySelector("#distanceValue").textContent="Add city coordinates for km";
+  }
+ }else if(p.future){
+  f.innerHTML=`<span class="tape"></span><span class="doodle">${p.doodle}</span><span class="sticker">${p.sticker}</span><div class="inner future-page"><p class="future-kicker">little dreams for a someday</p><h2 class="future-heading">Someday, With You ♡</h2><p class="future-sub">A few moments I hope we get to turn into real memories.</p><div class="future-grid"><div class="future-card"><span class="future-icon">🎓</span><strong>Our dream college</strong><span>A place we'll always remember</span></div><div class="future-card"><span class="future-icon">🤍</span><strong>Our first meeting</strong><span>The day online becomes in-person</span></div><div class="future-card"><span class="future-icon">📸</span><strong>Our first picture</strong><span>A photo frame waiting for us</span></div><div class="future-card"><span class="future-icon">🌍</span><strong>Places to visit</strong><span>Little adventures to plan</span></div><div class="future-card"><span class="future-icon">🍰</span><strong>Things to do</strong><span>Simple moments, side by side</span></div><div class="future-card"><span class="future-icon">✨</span><strong>Unmade memories</strong><span>Stories we haven't written yet</span></div></div><div class="future-polaroid"><div class="future-photo-placeholder">♡<br>our first picture<br>goes here</div><small>Reserved for our first picture together.</small></div><p class="future-ending">${p.text}</p><span class="pagenum">♡ ${n} / ${pages.length} ♡</span></div>`;
+ }else if(p.birthday){
   f.innerHTML=`<span class="birthday-flower one">🌷</span><span class="birthday-flower two">🌸</span><span class="tape"></span><span class="doodle">${p.doodle}</span><span class="sticker">${p.sticker}</span><div class="inner birthday-page"><p class="birthday-kicker">a little celebration, made with love</p><h2 class="birthday-heading">Happy Birthday, Sarah!</h2><div class="birthday-date">5th November 2010</div><p class="birthday-ornament">✿ ♡ ✧ 🦋 ✧ ♡ ✿</p><label class="birthday-photo"><span class="birthday-photo-inner"><img alt="Sarah's birthday memory"><span class="ph">♡ Add a favourite birthday photo here ♡<br><small>tap the frame to add or change</small></span><span class="photo-sparkle">✧</span></span><input type="file" accept="image/*" hidden></label><div class="birthday-message"><strong>A wish, just for you</strong>${p.text}</div><p class="birthday-bottom">A little page, just to celebrate you.</p><span class="pagenum">♡ ${n} / ${pages.length} ♡</span></div>`;
  }else{
   f.innerHTML=`<span class="tape"></span><span class="doodle">${p.doodle}</span><span class="sticker">${p.sticker}</span><div class="inner"><div class="label"></div><h2 class="title"></h2><p class="text"></p><div class="caption"><span class="cap-text"></span><span>♡ ✧ 🎀</span></div>${p.photo?`<label class="polaroid"><span class="pic"><img alt="A memory"><span class="ph">♡ add a photo ♡</span></span><small>tap to add / change</small><input type="file" accept="image/*" hidden></label>`:""}<p class="note"></p><span class="pagenum">♡ ${n} / ${pages.length} ♡</span></div>`;
@@ -137,7 +188,7 @@ function pageFace(p,n){
  if(p.photo){
   const img=f.querySelector("img"),ph=f.querySelector(".ph"),input=f.querySelector('input[type="file"]'),slotIndex=photoSlots.length;
   const slot={
-  key:"photo"+slotIndex,
+  key:p.photoKey||("photo"+slotIndex),
   url:null,
   show(blob){
     if(slot.url)URL.revokeObjectURL(slot.url);
@@ -174,20 +225,15 @@ photoSlots.push(slot);
 function addSheet(front,back,z){const s=document.createElement("div");s.className="page";s.style.zIndex=z;s.append(front,back);book.appendChild(s);sheets.push(s)}
 addSheet(coverFace(),backFace(),pages.length+1);pages.forEach((p,i)=>addSheet(pageFace(p,i+1),backFace(),pages.length-i));
  
-const hostedPhotos = [
-  "Sarah1.jpg",
-  "Sarah2.jpg",
-  "Sarah3.jpg",
-  "Sarah4.jpg",
-  "Sarah5.jpg",
-  "Sarah6.jpg",
-  "Sarah8.jpg",
-  "Sarah10.jpg",
-  "Sarah11.jpg"
-];
+const hostedPhotos = {
+  photo0:"Sarah1.jpg", photo1:"Sarah2.jpg", photo2:"Sarah3.jpg",
+  photo3:"Sarah4.jpg", photo4:"Sarah5.jpg", photo5:"Sarah6.jpg",
+  photo6:"Sarah8.jpg", photo7:"Sarah10.jpg", photo8:"Sarah11.jpg"
+};
 
-photoSlots.forEach((slot, i) => {
-  slot.showRemote("images/" + hostedPhotos[i]);
+photoSlots.forEach(slot => {
+  const imageName = hostedPhotos[slot.key];
+  if (imageName) slot.showRemote("images/" + imageName);
 });
 
 const total=sheets.length,counter=$("counter"),prev=$("prev"),next=$("next"),bar=$("bar");
